@@ -58,3 +58,30 @@ plot(Estatura,TallaZapato,'o')
 hold on
 plot(x1,y1)
 hold off
+
+Sexo = table2array(EstadsticadeTallas(:,"Sexo"));
+hombres = find(Sexo == 'Masculino')
+EstHom = table2array(EstadsticadeTallas(hombres,"EstaturaNormalizada"));
+TallaZapHom = table2array(EstadsticadeTallas(hombres,"CulEsSuTallaDeCalzado"));
+
+figure(6)
+ph = polyfit(EstHom,TallaZapHom,1)
+xh = linspace(130,200);
+yh = polyval(ph,xh);
+plot(EstHom,TallaZapHom,'o')
+hold on
+plot(xh,yh)
+hold off
+
+mujeres = find(Sexo == 'Femenino')
+EstMuj = table2array(EstadsticadeTallas(mujeres,"EstaturaNormalizada"));
+TallaZapMuj = table2array(EstadsticadeTallas(mujeres,"CulEsSuTallaDeCalzado"));
+
+figure(7)
+pm = polyfit(EstMuj,TallaZapMuj,1)
+xm = linspace(130,200);
+ym = polyval(pm,xm);
+plot(EstMuj,TallaZapMuj,'o')
+hold on
+plot(xm,ym)
+hold off
