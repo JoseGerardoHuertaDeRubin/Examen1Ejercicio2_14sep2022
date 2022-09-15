@@ -1,0 +1,61 @@
+importdata 'Estadística de Tallas.xlsx'
+Estatura = table2array(EstadsticadeTallas(:,"EstaturaNormalizada"));
+TallaZapato = table2array(EstadsticadeTallas(:,"CulEsSuTallaDeCalzado"));
+
+%PARA ESTATURA
+
+%Medidas de tendencia central
+MediaEst = mean(Estatura)
+VarEst = var(Estatura)
+DesvEst = std(Estatura)
+
+%Función gaussiana asumiendo normal
+figure(1)
+XEst=130:1:200;
+YEst=(1/(sqrt(1*pi)*DesvEst)*exp((-(XEst-MediaEst).*(XEst-MediaEst))/(2*VarEst)));
+plot(XEst,YEst)
+
+%Histograma
+figure(2)
+histogram(Estatura, 15) %Histograma con 15 clases (aprox. raíz de n)
+
+%PARA TALLA DE ZAPATO
+
+%Medidas de tendencia central
+MediaZap = mean(TallaZapato)
+VarZap = var(TallaZapato)
+DesvZap = std(TallaZapato)
+
+%Función gaussiana asumiendo normal
+figure(3)
+XZap=20:1:30;
+YZap=(1/(sqrt(1*pi)*DesvZap)*exp((-(XZap-MediaZap).*(XZap-MediaZap))/(2*VarZap)));
+plot(XZap,YZap)
+
+%Histograma
+figure(4)
+histogram(TallaZapato, 15) %Histograma con 15 clases (aprox. raíz de n)
+
+%PROBABILIDADES
+
+%Para estatura
+probEst1 = normcdf(MediaEst+DesvEst, MediaEst, DesvEst);
+probEst2 = normcdf(MediaEst-DesvEst, MediaEst, DesvEst);
+probTotEst = probEst1 - probEst2
+
+%Para talla de zapato
+probZap1 = normcdf(MediaZap+DesvZap, MediaZap, DesvZap);
+probZap2 = normcdf(MediaZap-DesvZap, MediaZap, DesvZap);
+probTotZap = probZap1 - probZap2
+
+%APROXIMACIONES LINEALES
+
+figure(5)
+p = polyfit(Estatura,TallaZapato,1)
+x1 = linspace(130,200);
+y1 = polyval(p,x1);
+figure
+plot(Estatura,TallaZapato,'o')
+hold on
+plot(x1,y1)
+hold off
