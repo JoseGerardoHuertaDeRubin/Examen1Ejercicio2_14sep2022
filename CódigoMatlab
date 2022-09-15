@@ -54,7 +54,6 @@ figure(5)
 p = polyfit(Estatura,TallaZapato,1)
 x1 = linspace(130,200);
 y1 = polyval(p,x1);
-figure
 plot(Estatura,TallaZapato,'o')
 hold on
 plot(x1,y1)
